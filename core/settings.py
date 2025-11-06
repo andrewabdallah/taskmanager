@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # Third-party
     'rest_framework',
+    'drf_spectacular',
 
     # Apps
     'tasks',
@@ -150,4 +151,15 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    
+    'TITLE': 'Task Manager API',
+    'DESCRIPTION': 'A project to manage tasks with Django REST Framework and JWT authentication.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False, # Set to True if you want the schema to be served with the UI
+    # 'SWAGGER_UI_SETTINGS': { ... }, # Customize Swagger UI
+    # 'REDOC_UI_SETTINGS': { ... },   # Customize Redoc
 }
