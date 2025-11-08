@@ -1,0 +1,40 @@
+[tool.ruff]
+target-version = "py310"
+line-length = 90
+exclude = [
+  ".git",
+  ".ruff_cache",
+  "manage.py",
+]
+
+[tool.ruff.lint]
+mccabe.max-complexity = 60
+select = ["ALL"]
+ignore = [
+  "COM812", "ISC001", "D203", "D212", "EXE002", "PT",
+  "ANN", "ARG002", "BLE001", "ERA001", "E501", "N818",
+  "FIX002", "TRY003", "G004", "PLR2004", "RUF012",
+  "SLF001",
+  "D100","D101","D102","D103","D104","D105","D106","D107",
+  "D200","D205","D400","D401","D404","D415",
+  "DJ001","DJ006","DJ007",
+  "EM101","EM102",
+  "FBT001","FBT002",
+  "TD002","TD003","TD004", "DTZ011",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F403", "F401"]
+"manage.py" = ["PLC0415"]
+"wsgi.py" = ["PLC0415"]
+"asgi.py" = ["PLC0415"]
+"core/settings/**" = ["F401", "F403", "F405", "E402"]
+"**/tests/**" = ["S105", "S106"]
+"**/migrations/**" = ["Q000", "I001"]
+
+[tool.ruff.format]
+line-ending = "lf"
+indent-style = "space"
+quote-style = "double"
+skip-magic-trailing-comma = false
+exclude = ["**/migrations/**"]

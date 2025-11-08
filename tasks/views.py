@@ -1,12 +1,14 @@
-from rest_framework import viewsets, permissions
-from .models.task import Task
-from .serializers import TaskSerializer
-from core.permissions import IsOwner
+from django.conf import settings
+from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.core.cache import cache
-from django.conf import settings
+
 from core.decorators.cache_decorator import cache_api_call
+from core.permissions import IsOwner
+
+from .models.task import Task
+from .serializers import TaskSerializer
+
 
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
@@ -22,6 +24,8 @@ class TaskViewSet(viewsets.ModelViewSet):
     @cache_api_call("user_id")
     def recent(self, request):
         """Cached endpoint for recent tasks"""
-        queryset = self.get_queryset().order_by("-created_at")[:settings.RECENT_TASKS_COUNT]
+        queryset = self.get_queryset().order_by("-created_at")[
+            : settings.RECENT_TASKS_COUNT
+        ]
         data = TaskSerializer(queryset, many=True).data
         return Response(data)

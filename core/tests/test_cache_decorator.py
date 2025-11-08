@@ -22,7 +22,9 @@ class TestCacheApiCallDecorator(TestCase):
         result1 = decorated_function(id="user_1")
         self.assertEqual(result1, "expected result")
         self.assertEqual(
-            mock_function.call_count, 1, "Function should be called once on cache miss"
+            mock_function.call_count,
+            1,
+            "Function should be called once on cache miss",
         )
 
         # Second call with the same identifier, should result in cache hit and no function execution
