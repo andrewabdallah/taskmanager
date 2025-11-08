@@ -1,9 +1,11 @@
 import logging
 from functools import wraps
-from django.core.cache import cache
+
 from django.conf import settings
+from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
+
 
 def cache_api_call(*keys, timeout=None):
     """
@@ -13,7 +15,9 @@ def cache_api_call(*keys, timeout=None):
         *keys: Names of kwargs used to build the cache key.
         timeout: Optional cache timeout (in seconds).
                  If not provided, uses settings.CACHE_TIMEOUT or defaults to 300.
+
     """
+
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -30,11 +34,7 @@ def cache_api_call(*keys, timeout=None):
             cache_key = f"{func.__name__}:" + "-".join(str(kwargs[key]) for key in keys)
 
             # Determine timeout priority
-            effective_timeout = (
-                timeout or
-                settings.CACHE_TIMEOUT or
-                300
-            )
+            effective_timeout = timeout or settings.CACHE_TIMEOUT or 300
 
             # Check cache
             cached_value = cache.get(cache_key)
@@ -47,5 +47,7 @@ def cache_api_call(*keys, timeout=None):
             cache.set(cache_key, result, timeout=effective_timeout)
             logger.debug(f"Cache set for {cache_key} with timeout={effective_timeout}s")
             return result
+
         return wrapper
+
     return decorator

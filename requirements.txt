@@ -5,3 +5,4 @@ python-decouple>=3.8
 redis>=5.0.0
 djangorestframework-simplejwt>=5.5.1
 drf-spectacular>=0.29.0
+ruff==0.14.4
