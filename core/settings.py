@@ -97,7 +97,7 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": f"redis://{config('REDIS_HOST')}:{config('REDIS_PORT')}/0",
+        "LOCATION": f"redis://redis:{config('REDIS_PORT')}/0",
     }
 }
 
@@ -163,3 +163,8 @@ SPECTACULAR_SETTINGS = {
     # 'SWAGGER_UI_SETTINGS': { ... }, # Customize Swagger UI
     # 'REDOC_UI_SETTINGS': { ... },   # Customize Redoc
 }
+
+
+
+CACHE_TIMEOUT = int(config("CACHE_TIMEOUT", 120))  # in seconds
+RECENT_TASKS_COUNT = int(config("RECENT_TASKS_COUNT", 10))
