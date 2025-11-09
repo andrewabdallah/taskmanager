@@ -8,7 +8,7 @@ DOCKER_COMPOSE := env_var_or_default("DOCKER_COMPOSE", "docker compose")
 DOCKER_COMPOSE_EXEC := DOCKER_COMPOSE + " exec"
 DOCKER_COMPOSE_EXEC_WEB := DOCKER_COMPOSE_EXEC + " web"
 DOCKER_COMPOSE_EXEC_WEB_MANAGE := DOCKER_COMPOSE_EXEC_WEB + " python manage.py"
-WEB_TEST_SETTINGS_MODULE := env_var_or_default("WEB_TEST_SETTINGS_MODULE", "core.settings")
+WEB_TEST_SETTINGS_MODULE := env_var_or_default("WEB_TEST_SETTINGS_MODULE", "core.settings.test")
 WEB_TEST_PARAMETERS := "--noinput -v 1 --exclude-tag=kcf"
 WEB_TEST_COMMAND := "manage.py test " + WEB_TEST_PARAMETERS + " --settings=" + WEB_TEST_SETTINGS_MODULE
 WEB_TEST_MODE := "-e SERVER_MODE=test web"
@@ -56,7 +56,7 @@ up *apps='':
 
 # Turn off the containers
 down:
-	{{DOCKER_COMPOSE}} down
+	{{DOCKER_COMPOSE}} down --remove-orphans
 
 # Starts the webserver on the django container
 run:
@@ -95,6 +95,6 @@ ruff *args='':
 	{{DOCKER_COMPOSE_EXEC_WEB}} ruff check . $@
 
 # Fix linting on the current changes compared to local dev branch
-lint_fix:
+lint-fix:
 	{{DOCKER_COMPOSE_EXEC_WEB}} ruff check . --fix
 	{{DOCKER_COMPOSE_EXEC_WEB}} ruff format .
