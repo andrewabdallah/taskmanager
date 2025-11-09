@@ -74,7 +74,7 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
         run: |
           set -a
-          source .env.test
+          source .env.ci
           set +a
           python manage.py makemigrations --check --dry-run
           python manage.py test --noinput -v 1 --exclude-tag=kcf --parallel
