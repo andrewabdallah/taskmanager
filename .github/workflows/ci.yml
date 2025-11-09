@@ -56,11 +56,6 @@ jobs:
           --health-retries 5
     env:
       DJANGO_SETTINGS_MODULE: core.settings.test
-      POSTGRES_DB: test_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: localhost
-      POSTGRES_PORT: 5432
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -78,6 +73,9 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
         run: |
+          set -a
+          source .env.test
+          set +a
           python manage.py makemigrations --check --dry-run
           python manage.py makeviewmigrations --check --dry-run
           python manage.py test --noinput -v 1 --exclude-tag=kcf --parallel
