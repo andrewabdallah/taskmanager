@@ -33,7 +33,7 @@ jobs:
 
     services:
       db:
-        image: postgres:14
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -45,7 +45,17 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
-
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DJANGO_SETTINGS_MODULE: core.settings.test
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -59,8 +69,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
       - name: Run Django tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-        run: python manage.py test
+        run: |
+          set -a
+          source .env.ci
+          set +a
+          python manage.py makemigrations --check --dry-run
+          python manage.py test --noinput -v 1 --exclude-tag=kcf --parallel

@@ -31,7 +31,7 @@ SECRET_KEY = config(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",")
 
 
 # Application definition
@@ -87,18 +87,18 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB"),  # Your Docker PostgreSQL database name
-        "USER": config("POSTGRES_USER"),  # Your PostgreSQL username
-        "PASSWORD": config("POSTGRES_PASSWORD"),  # Your PostgreSQL password
-        "HOST": config("POSTGRES_HOST", default="db"),  # If Docker container is local
-        "PORT": config("POSTGRES_PORT", default="5432"),  # Default PostgreSQL port
+        "NAME": config("POSTGRES_DB"),
+        "USER": config("POSTGRES_USER"),
+        "PASSWORD": config("POSTGRES_PASSWORD"),
+        "HOST": config("POSTGRES_HOST", default="db"),
+        "PORT": config("POSTGRES_PORT", default="5432"),
     },
 }
 
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": f"redis://redis:{config('REDIS_PORT')}/0",
+        "LOCATION": f"redis://{config('REDIS_HOST')}:{config('REDIS_PORT')}/0",
     },
 }
 
