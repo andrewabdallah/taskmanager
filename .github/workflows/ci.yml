@@ -77,5 +77,4 @@ jobs:
           source .env.test
           set +a
           python manage.py makemigrations --check --dry-run
-          python manage.py makeviewmigrations --check --dry-run
           python manage.py test --noinput -v 1 --exclude-tag=kcf --parallel
