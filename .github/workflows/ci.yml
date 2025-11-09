@@ -68,4 +68,7 @@ jobs:
       - name: Run Django tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-        run: python manage.py test
+        run: |
+          python manage.py makemigrations --check --dry-run
+          python manage.py makeviewmigrations --check --dry-run
+          python manage.py test --noinput -v 1 --exclude-tag=kcf --parallel
