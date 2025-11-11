@@ -22,8 +22,6 @@ MIGRATION_MODULES = DisableMigrations()
 
 # Optional: Configure pytest-factoryboy and faker
 INSTALLED_APPS += [
-    #     "pytest_django",
-    #     "factory",
+        "pytest_django",
+        "factory",
 ]
-
-
