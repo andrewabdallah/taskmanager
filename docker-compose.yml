@@ -1,6 +1,10 @@
+version: "3.9"
+
 services:
   web:
-    build: .
+    build:
+      context: .
+      target: dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
