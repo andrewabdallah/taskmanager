@@ -30,7 +30,7 @@ class TaskAPITests(APITestCase):
         self.assertEqual(r.status_code, 201)
         r = self.client.get("/api/tasks/")
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(len(r.data), 1)
+        self.assertEqual(len(r.data["items"]), 1)
 
     def test_recent_endpoint_cached(self):
         for i in range(3):

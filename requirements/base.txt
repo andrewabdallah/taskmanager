@@ -1,4 +1,4 @@
-Django>=4.2,<5.0
+Django>=5.2.8
 psycopg2-binary>=2.9
 djangorestframework>=3.14
 python-decouple>=3.8
@@ -6,3 +6,5 @@ redis>=5.0.0
 djangorestframework-simplejwt>=5.5.1
 drf-spectacular>=0.29.0
 tblib>=3.2.1
+djangorestframework-csv>=3.0.2
+django-filter>=25.2

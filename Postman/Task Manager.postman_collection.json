@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6aff7bf3-01a9-4776-903c-8dcf01df424f",
+		"_postman_id": "a6419c79-f6ec-4f72-88c6-0aacaf5a2fde",
 		"name": "Task Manager",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26638996"
@@ -21,8 +21,8 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"var jsonData = pm.response.json();\r",
-									"pm.collectionVariables.set(\"ACCESS_TOKEN\", jsonData.access);\r",
-									"pm.collectionVariables.set(\"REFRESH_TOKEN\", jsonData.refresh);\r",
+									"pm.environment.set(\"ACCESS_TOKEN\", jsonData.access);\r",
+									"pm.environment.set(\"REFRESH_TOKEN\", jsonData.refresh);\r",
 									""
 								],
 								"type": "text/javascript",
@@ -123,7 +123,14 @@
 					"name": "Tasks List",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/csv",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"url": {
 							"raw": "{{BASE_URL}}api/tasks",
 							"host": [
@@ -131,6 +138,41 @@
 							],
 							"path": [
 								"tasks"
+							],
+							"query": [
+								{
+									"key": "ordering",
+									"value": "-due_date",
+									"disabled": true
+								},
+								{
+									"key": "max_priority",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "due_before",
+									"value": "2025-10-01",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recent tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}api/tasks/recent",
+							"host": [
+								"{{BASE_URL}}api"
+							],
+							"path": [
+								"tasks",
+								"recent"
 							]
 						}
 					},
@@ -140,7 +182,14 @@
 					"name": "Single Task",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/csv",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"url": {
 							"raw": "{{BASE_URL}}api/tasks/f08c9081-51c3-4870-9807-857a8dbef4a7",
 							"host": [
@@ -179,7 +228,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Task created from API\",\r\n    \"description\": \"Testing using API\",\r\n    \"status\": \"completed\",\r\n    \"priority\": 3,\r\n    \"due_date\": \"2025-11-30\",\r\n    \"owner\": 1\r\n}",
+							"raw": "{\r\n    \"title\": \"Task created from API V2\",\r\n    \"description\": \"Testing using API V2\",\r\n    \"status\": \"completed\",\r\n    \"priority\": 3,\r\n    \"due_date\": \"2025-11-30\",\r\n    \"owner\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -193,34 +242,6 @@
 							],
 							"path": [
 								"tasks",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Task",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Task updated from API\",\r\n    \"description\": \"Testing using API\",\r\n    \"status\": \"completed\",\r\n    \"priority\": 3,\r\n    \"due_date\": \"2025-11-30\",\r\n    \"owner\": 1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}api/tasks/447f4324-3536-4fe0-8fa8-be98a5ea9bbe/",
-							"host": [
-								"{{BASE_URL}}api"
-							],
-							"path": [
-								"tasks",
-								"447f4324-3536-4fe0-8fa8-be98a5ea9bbe",
 								""
 							]
 						}
@@ -262,20 +283,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "BASE_URL",
-			"value": ""
-		},
-		{
-			"key": "ACCESS_TOKEN",
-			"value": ""
-		},
-		{
-			"key": "REFRESH_TOKEN",
-			"value": ""
 		}
 	]
 }
