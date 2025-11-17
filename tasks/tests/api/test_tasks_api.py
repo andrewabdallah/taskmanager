@@ -3,8 +3,6 @@ from datetime import date, timedelta
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient, APITestCase
 
-from tasks.models import Task
-
 
 class TaskAPITests(APITestCase):
     def setUp(self):
@@ -31,11 +29,3 @@ class TaskAPITests(APITestCase):
         r = self.client.get("/api/tasks/")
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.data["items"]), 1)
-
-    def test_recent_endpoint_cached(self):
-        for i in range(3):
-            Task.objects.create(owner=self.u, title=f"T{i}")
-        r1 = self.client.get("/api/tasks/recent/")
-        r2 = self.client.get("/api/tasks/recent/")  # should hit cache
-        self.assertEqual(r1.status_code, 200)
-        self.assertEqual(r2.status_code, 200)

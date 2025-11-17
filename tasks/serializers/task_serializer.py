@@ -2,7 +2,7 @@ from datetime import date
 
 from rest_framework import serializers
 
-from tasks.models.task import Task
+from tasks.models import Task
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -19,6 +19,8 @@ class TaskSerializer(serializers.ModelSerializer):
         return value
 
     def validate_due_date(self, value):
+        if value is None:
+            raise serializers.ValidationError("Due date cannot be null.")
         if value and value < date.today():
             raise serializers.ValidationError("Due date cannot be in the past.")
         return value

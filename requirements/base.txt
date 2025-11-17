@@ -8,3 +8,4 @@ drf-spectacular>=0.29.0
 tblib>=3.2.1
 djangorestframework-csv>=3.0.2
 django-filter>=25.2
+pytz>=2025.2

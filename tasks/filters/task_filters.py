@@ -1,9 +1,9 @@
 from django_filters import rest_framework as django_filters
 
-from tasks.models.task import Task
+from tasks.models import Task
 
 
-class TasksRequestFilter(django_filters.FilterSet):
+class TaskFilterSet(django_filters.FilterSet):
     """Filter for Tasks based on request parameters."""
 
     min_priority = django_filters.NumberFilter(field_name="priority", lookup_expr="gte")

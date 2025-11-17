@@ -6,11 +6,11 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
-from core.decorators.cache_decorator import cache_api_call
+from core.decorators import cache_api_call
 from core.views import BaseMixin, BaseModelViewSet
-from tasks.filters.task_filters import TasksRequestFilter
-from tasks.models.task import Task
-from tasks.serializers.task_serializer import TaskCSVSerializer, TaskSerializer
+from tasks.filters import TaskFilterSet
+from tasks.models import Task
+from tasks.serializers import TaskCSVSerializer, TaskSerializer
 
 
 class TaskViewSet(BaseMixin, BaseModelViewSet):
@@ -22,7 +22,7 @@ class TaskViewSet(BaseMixin, BaseModelViewSet):
     renderer_classes = [JSONRenderer, CSVRenderer]
     serializer_class = TaskSerializer
     csv_serializer_class = TaskCSVSerializer
-    filterset_class = TasksRequestFilter
+    filterset_class = TaskFilterSet
     ordering_fields = ["created_at", "due_date", "priority"]
     ordering = ["-created_at"]
     cache_enabled = False
