@@ -1,4 +1,3 @@
-# tasks/tests/test_task_viewset.py
 from datetime import date, timedelta
 
 from django.test import TestCase
@@ -90,3 +89,27 @@ class TestTaskViewSet(TestCase):
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Task.objects.active().count(), 0)
         self.assertEqual(Task.objects.count(), 1)  # still exists in DB
+
+    def test_tasks_list_filter_priority(self):
+        user = UserFactory()
+        TaskFactory(owner=user, priority=1)
+        TaskFactory(owner=user, priority=5)
+
+        request = APIRequestFactory().get("/tasks/?min_priority=3")
+        force_authenticate(request, user=user)
+
+        response = TaskViewSet.as_view({"get": "list"})(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data["items"]), 1)
+        self.assertEqual(response.data["items"][0]["priority"], 5)
+
+    def test_tasks_list_csv_renderer(self):
+        user = UserFactory()
+        TaskFactory(owner=user)
+
+        request = APIRequestFactory().get("/tasks/?format=csv", HTTP_ACCEPT="text/csv")
+        force_authenticate(request, user=user)
+
+        response = TaskViewSet.as_view({"get": "list"})(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("attachment; filename=", response["Content-Disposition"])
