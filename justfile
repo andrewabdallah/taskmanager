@@ -16,8 +16,8 @@ DJANGO_UV := "uv pip compile --quiet --upgrade --python=3.11"
 
 
 dependencies_update:
-	{{DOCKER_COMPOSE_EXEC_WEB}} {{DJANGO_UV}} pyproject.toml --output-file requirements_prod.txt
-	{{DOCKER_COMPOSE_EXEC_WEB}} {{DJANGO_UV}} --all-extras pyproject.toml --output-file requirements_test.txt
+	{{DOCKER_COMPOSE_EXEC_WEB}} {{DJANGO_UV}} pyproject.toml --output-file requirements/base.txt
+	{{DOCKER_COMPOSE_EXEC_WEB}} {{DJANGO_UV}} --all-extras pyproject.toml --output-file requirements/.txt
 
 # Init dev environment
 init-dev:
